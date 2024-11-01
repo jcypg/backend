@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        const apiKey = 'AIzaSyBq70CzWYRmh-Ul1jlhyF6lK0kwPgnTI4s'
+        const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=programación&key= + ${apiKey}`;
+        fetch(url)
+  .then(response => response.json())
+  .then(data => {
+    console.log(data)
+    const videos = data.items;
+    const listaVideos = document.getElementById('lista-videos');
+
+    videos.forEach(video => {
+  const li = document.createElement('li');
+  const a = document.createElement('a');
+  const img = document.createElement('img');
+  const h2 = document.createElement('h2');
+  const p = document.createElement('p');
+
+  img.src = video.snippet.thumbnails.default.url;
+  h2.textContent = video.snippet.title;
+  p.textContent = video.snippet.description;
+  a.href = `https://www.youtube.com/watch?v=${video.id.videoId};`;
+
+  a.appendChild(img);
+  a.appendChild(h2);
+  a.appendChild(p);
+  li.appendChild(a);
+  listaVideos.appendChild(li);
+});
+  })
+  .catch(error => console.error(error));
+
+    </script>
+
+<style>
+    body {
+    font-family: Arial, sans-serif;
+}
+
+#contenedor {
+    width: 80%;
+    margin: 40px auto;
+    text-align: center;
+}
+
+#lista-videos {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#lista-videos li {
+    margin-bottom: 20px;
+}
+
+#lista-videos li img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+#lista-videos li h2 {
+    font-size: 20px;
+    margin-top: 10px;
+}
+</style>
+
+</head>
+<body>
+    <div id="contenedor">
+        <h1>Resultados de búsqueda</h1>
+        <ul id="lista-videos"></ul>
+    </div>
+</body>
+</html>
